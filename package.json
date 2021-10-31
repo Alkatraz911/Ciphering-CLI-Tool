@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "my_ceaser_cli.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Alkatraz911/my_ceaser_cli/issues"
   },
-  "homepage": "https://github.com/Alkatraz911/my_ceaser_cli#readme"
+  "homepage": "https://github.com/Alkatraz911/my_ceaser_cli#readme",
+  "dependencies": {
+    "minimist": "^1.2.5"
+  }
 }

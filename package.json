@@ -16,8 +16,5 @@
   "bugs": {
     "url": "https://github.com/Alkatraz911/my_ceaser_cli/issues"
   },
-  "homepage": "https://github.com/Alkatraz911/my_ceaser_cli#readme",
-  "dependencies": {
-    "minimist": "^1.2.5"
-  }
+  "homepage": "https://github.com/Alkatraz911/my_ceaser_cli#readme"
 }

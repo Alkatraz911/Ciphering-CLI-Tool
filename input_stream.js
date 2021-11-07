@@ -1,6 +1,13 @@
-import minimist from "minimist";
+import Readable from 'stream';
 
-let args = minimist(process.argv.slice(2))
-if(args.a)
-console.log(args)
-process.stdin.resume()
+class MyReadableStream extends Readable {
+    constructor(opt) {
+        super(opt); 
+    }
+
+    _read() {
+
+    }
+}
+
+

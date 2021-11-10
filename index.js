@@ -1,6 +1,6 @@
 import { TerminalReader } from './terminalReader.js';
 import { exit, stdin } from 'process';
-import { CeasarTransform } from './transform.js'
+import { CeasarTransform } from './CeasatTransform.js'
 import  { inputStream } from './inputStream.js';
 import { outputStream } from './outputStream.js';
 import { pipeline } from 'stream';

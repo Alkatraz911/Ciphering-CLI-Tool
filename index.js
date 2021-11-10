@@ -1,10 +1,13 @@
 import { TerminalReader } from './terminalReader.js';
-import { exit, stdin } from 'process';
+import { exit } from 'process';
 import { CeasarTransform } from './CeasatTransform.js'
 import  { inputStream } from './inputStream.js';
 import { outputStream } from './outputStream.js';
 import { pipeline } from 'stream';
 import path from 'path';
+
+let input_stream;
+let output_stream;
 
 const argumentChecker = (args) => {
     let allowedArgs = ['-c','--config','-i','--input','-o','--output'];
@@ -36,13 +39,19 @@ const argumentChecker = (args) => {
             } 
         }
         if (configArgNumber === 0){
-            process.stderr.write('Config argument is missing!');
+            process.stderr.write('Config flag is missing!');
             exit(1);
         } else if (inputArgNumber > 1 || outputArgNumber > 1 || configArgNumber > 1) {
-            process.stderr.write('To many arguments!');
+            process.stderr.write('To many flags!');
             exit(1);
-        }
-
+        }   
+        // } else if (inputArgNumber === 0) {
+        //     process.stderr.write('Require input flag!');
+        //     exit(1);
+        // } else if (outputArgNumber === 0) {
+        //     process.stderr.write('Require output flag!');
+        //     exit(1);
+        // } 
     }
 
     
@@ -85,22 +94,42 @@ const configParser =  (config,arr) => {
     }
 }
 
+const streamFinder = (args) => {
+    let allowedArgs = ['-c','--config','-i','--input','-o','--output'];
+    let inputFile;
+    let outputFile;
+    args.map((el,i)=>{
+        if (el === '-i'|| el === '--input') {
+            inputFile = args[i+1];
+        } else if (el === '-o'|| el === '--output') {
+            outputFile = args[i+1];
+        }
+    })
+    if  (allowedArgs.includes(inputFile) || inputFile === undefined) {
+        input_stream = process.stdin;
+    } else {
+        input_stream = new inputStream(`${path.dirname(process.argv[1])}\\${inputFile}`, { highWaterMark: 64 });
+    }
+    if (allowedArgs.includes(outputFile) || outputFile === undefined) {
+        output_stream = process.stdout;
+    } else {
+        output_stream = new outputStream(`${path.dirname(process.argv[1])}\\${outputFile}`);
+    }
+}
+
 let transformArr = [];
 let args = new TerminalReader().read();
 argumentChecker(args);
-
 let config = configChecker(args);
-
 configParser(config,transformArr);
+streamFinder(args);
 
 
-let input = new inputStream(`${path.dirname(process.argv[1])}\\input.txt`, { highWaterMark: 64 });
-let output = new outputStream(`${path.dirname(process.argv[1])}\\test.txt`);
 
 pipeline(
-    input,
+    input_stream,
     ...transformArr,
-    output,
+    output_stream,
     (err) => {
         if (err){
             console.log(err)

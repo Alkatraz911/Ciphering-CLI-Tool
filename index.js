@@ -1,9 +1,10 @@
 import { TerminalReader } from './terminalReader.js';
 import { exit, stdin } from 'process';
-
-let input;
-let output;
-// let config;
+import { CeasarTransform } from './transform.js'
+import  { inputStream } from './inputStream.js';
+import { outputStream } from './outputStream.js';
+import { pipeline } from 'stream';
+import path from 'path';
 
 const argumentChecker = (args) => {
     let allowedArgs = ['-c','--config','-i','--input','-o','--output'];
@@ -52,14 +53,6 @@ const argumentChecker = (args) => {
 
 }
 
-const charToNum = (char) => {
-    return char.charCodeAt(0) - 97
-}
-
-const numToChar = (num) => {
-    return String.fromCharCode(97 + num)
-}
-
 const configChecker = (args) => {
     const allowedArgs = ['C1','C0','R1','R0','A']
     let config = args.includes('-c')? args[args.indexOf('-c')+1] : args[args.indexOf('--config')+1];
@@ -76,13 +69,12 @@ const configChecker = (args) => {
     return result;
 }
 
-const configParser =  (config, input) => {
-    let result='';
-    for (const el of config){
+const configParser =  (config,arr) => {
+    for (const el of config) {
         if (el === 'C1') {
-            result += ceaser(el, result = input);
+            arr.push(new CeasarTransform(el)); 
         } else if (el === 'C0') {
-            result += ceaser(el, input);
+            arr.push(new CeasarTransform(el));
         } else if (el === 'R1') {
     
         } else if (el === 'R0') {
@@ -91,37 +83,28 @@ const configParser =  (config, input) => {
     
         }
     }
-    console.log(result);
-    return result;
 }
 
-const ceaser = (mode,input) => {
-
-    if (mode === 'C1') {
-        let letters = input.split('');
-        let result = letters.map((el) => {
-            return numToChar((charToNum(el) + 1) % 26);
-        })
-        return result.join('');
-    } else if (mode === 'C0') {
-        let letters = input.split('');
-        let result = letters.map((el) => {
-            return numToChar(((charToNum(el)+26) - 1) % 26);
-        })
-        return result.join('');
-    }
-}
-
+let transformArr = [];
 let args = new TerminalReader().read();
-argumentChecker(args)
+argumentChecker(args);
 let config = configChecker(args);
-configParser(config, 'abcfg')
+configParser(config,transformArr);
 
 
+let input = new inputStream(`${path.dirname(process.argv[1])}\\input.txt`, { highWaterMark: 64 });
+let output = new outputStream(`${path.dirname(process.argv[1])}\\test.txt`);
+
+pipeline(
+    input,
+    ...transformArr,
+    output,
+    (err) => {
+        if (err){
+            console.log(err)
+        }
+        console.log("Finished successfully")
+    }
+) 
 
 
-// pipeline(
-//     input_stream, // input file stream or stdin stream
-//     transform_stream, // Transform stream
-//     output_stream // output file stream or stdout stream
-// )

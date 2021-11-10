@@ -34,9 +34,6 @@ class inputStream extends Readable {
       }  
 }
 
-// let input = new inputStream(`${path.dirname(process.argv[1])}\\input.txt`, { highWaterMark: 64 });
-// input.on('data', (chunk)=>{
-//     console.log(chunk.toString());
-// })
+
 
 export { inputStream };

@@ -64,19 +64,19 @@ const configChecker = (args) => {
     const allowedArgs = ['C1','C0','R1','R0','A']
     let config = args.includes('-c')? args[args.indexOf('-c')+1] : args[args.indexOf('--config')+1];
     config = config.split('-')
-    
+    let result = []
     for (const el of config) {
-        if (el.length > 2 || !allowedArgs.includes(el)) {
-            process.stderr.write('Invalid config!')
+        if (el.length <= 2 && allowedArgs.includes(el)) {
+            result.push(el)
         } else {
-            return config;
+            process.stderr.write('Invalid config!')
+           exit(1);
         }
-
     }
-
+    return result;
 }
 
-const configParser = (config, input = 'abcdefg') => {
+const configParser =  (config, input) => {
     let result='';
     for (const el of config){
         if (el === 'C1') {
@@ -106,9 +106,6 @@ const ceaser = (mode,input) => {
     } else if (mode === 'C0') {
         let letters = input.split('');
         let result = letters.map((el) => {
-            // if (el === 'a') {
-            //     el = 
-            // }
             return numToChar(((charToNum(el)+26) - 1) % 26);
         })
         return result.join('');
@@ -118,7 +115,7 @@ const ceaser = (mode,input) => {
 let args = new TerminalReader().read();
 argumentChecker(args)
 let config = configChecker(args);
-configParser(config)
+configParser(config, 'abcfg')
 
 
 

@@ -1,32 +1,42 @@
+import { Readable } from 'stream';
 import fs from 'fs';
 
 
-let arr = [];
-let inputStream;
-let args = process.argv.slice(2);
 
-for (const el of args) {
 
-    if (el === '-c') {
-        arr.push(el);
+class inputStream extends Readable {
+     constructor (path,opt){
+        super(opt);
+        this.path = path;
+        this.fd = null;
     }
+
+    _construct (callback) {
+        fs.open(this.path, (err, fd) => {
+            if (err) {
+              callback(err);
+            } else {
+              this.fd = fd;
+              callback();
+            }
+          });
+    }
+
+    _read(n) {
+        const buf = Buffer.alloc(n);
+        fs.read(this.fd, buf, 0, n, null, (err, bytesRead) => {
+          if (err) {
+            this.destroy(err);
+          } else {
+            this.push(bytesRead > 0 ? buf.slice(0, bytesRead) : null);
+          }
+        });
+      }  
 }
 
-if (arr.length > 1) {
-    process.stderr.write('To many options!');
-    process.exit(1);
-} else {
-    let arr = []
-    for(let i = 0; i < args.length+2; i++) {
-        arr.push([args.shift().replace('-',''), args.shift()])
-    }
-     args = new Map(arr);
-     args = Object.fromEntries(args);
-    if (args.i) {
-        inputStream = fs.createReadStream('./input.txt')
-    } else {
-        inputStream = process.stdin;
-    }
-}
+// let input = new inputStream(`${path.dirname(process.argv[1])}\\input.txt`, { highWaterMark: 64 });
+// input.on('data', (chunk)=>{
+//     console.log(chunk.toString());
+// })
 
-export { inputStream }
+export { inputStream };

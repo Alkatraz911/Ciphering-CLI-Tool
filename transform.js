@@ -9,7 +9,7 @@ class CeasarTransform extends Transform {
     }
 
     _transform(chunk,encoding,callback) {
-        callback(ceaser(this.mode,chunk.toString()))
+        callback(null, ceaser(this.mode,chunk.toString()))
     }
 }
 

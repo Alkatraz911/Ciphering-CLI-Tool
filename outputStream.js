@@ -2,10 +2,12 @@ import { Writable } from 'stream';
 import fs from 'fs';
 
 class outputStream extends Writable {
+  
     constructor(path) {
         super();
         this.path = path;
       }
+
       _construct(callback) {
         fs.open(this.path, 'a',(err, fd) => {
           if (err) {
@@ -16,6 +18,7 @@ class outputStream extends Writable {
           }
         });
       }
+
       _write(chunk, encoding, callback) {
         fs.write(this.fd, chunk,  callback);
       }

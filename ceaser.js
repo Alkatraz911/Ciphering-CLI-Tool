@@ -21,17 +21,6 @@ const transformLowerChar = (char,shift) => {
 }
 
 
-const isValid = (char) => {
-    let num = char.charCodeAt(0);
-    if (num > 96 && num < 123)  {
-        return transformLowerChar(char);
-    } else if (num > 64 && num < 91) {
-       return transformUpperChar(char);
-    } else {
-        return char;
-    }
-}
-
 const ceaser = (mode,input) => {
 
     if (mode === 'C1') {
@@ -46,7 +35,7 @@ const ceaser = (mode,input) => {
                 return el;
              }
         });
-        return result.join('')
+        return result.join('');
     } else if (mode === 'C0') {
         let letters = input.split('');
         let result = letters.map((el) => {
@@ -59,12 +48,7 @@ const ceaser = (mode,input) => {
                 return el;
              }
         });
-        return result.join('')
-        // let letters = input.split('');
-        // let result = letters.map((el) => {
-        //     return numToChar(((charToNum(el)+26) - 1) % 26);
-        // })
-        // return result.join('');
+        return result.join('');
     }
 }
 

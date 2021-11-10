@@ -88,7 +88,9 @@ const configParser =  (config,arr) => {
 let transformArr = [];
 let args = new TerminalReader().read();
 argumentChecker(args);
+
 let config = configChecker(args);
+
 configParser(config,transformArr);
 
 

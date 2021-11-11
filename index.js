@@ -1,10 +1,13 @@
 import { TerminalReader } from './terminalReader.js';
 import { exit } from 'process';
-import { CeasarTransform } from './CeasatTransform.js'
+import { CeasarTransform } from './CeasatTransform.js';
+import { rot8Transform } from './Rot8Transform.js';
+import { atbashTransform } from './AtbashTransform.js';
 import  { inputStream } from './inputStream.js';
 import { outputStream } from './outputStream.js';
 import { pipeline } from 'stream';
 import path from 'path';
+import fs from 'fs';
 
 let input_stream;
 let output_stream;
@@ -85,11 +88,11 @@ const configParser =  (config,arr) => {
         } else if (el === 'C0') {
             arr.push(new CeasarTransform(el));
         } else if (el === 'R1') {
-    
+            arr.push(new rot8Transform(el));
         } else if (el === 'R0') {
-    
+            arr.push(new rot8Transform(el));
         } else if (el === 'A') {
-    
+            arr.push(new atbashTransform())
         }
     }
 }
@@ -107,13 +110,28 @@ const streamFinder = (args) => {
     })
     if  (allowedArgs.includes(inputFile) || inputFile === undefined) {
         input_stream = process.stdin;
+        input_stream.setEncoding('utf-8');
     } else {
-        input_stream = new inputStream(`${path.dirname(process.argv[1])}\\${inputFile}`, { highWaterMark: 64 });
+        let pathToInput = `${path.dirname(process.argv[1])}\\${inputFile}`
+        fs.access(pathToInput, fs.constants.F_OK, (err =>{
+            if (err) {
+                process.stderr.write('Incorrect input file or no acces to it!');
+                    exit(1);
+            }   
+        }));
+        input_stream = new inputStream(pathToInput, { highWaterMark: 16 });
     }
     if (allowedArgs.includes(outputFile) || outputFile === undefined) {
         output_stream = process.stdout;
     } else {
-        output_stream = new outputStream(`${path.dirname(process.argv[1])}\\${outputFile}`);
+        let pathToOutput = `${path.dirname(process.argv[1])}\\${outputFile}`
+        fs.access(pathToOutput, fs.constants.F_OK, (err =>{
+            if (err) {
+                process.stderr.write('Incorrect output file or no acces to it!');
+                    exit(1);
+            }   
+        }));
+        output_stream = new outputStream(pathToOutput);
     }
 }
 
@@ -132,9 +150,9 @@ pipeline(
     output_stream,
     (err) => {
         if (err){
-            console.log(err)
+            process.stderr.write(err);
         }
-        console.log("Finished successfully")
+        process.stdout.write("Finished successfully")
     }
 ) 
 

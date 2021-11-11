@@ -12,9 +12,9 @@ class inputStream extends Readable {
     }
 
     _construct (callback) {
-        fs.open(this.path, (err, fd) => {
+        fs.open(this.path, 'r', (err, fd) => {
             if (err) {
-              callback(err);
+                callback(err);  
             } else {
               this.fd = fd;
               callback();
@@ -26,7 +26,10 @@ class inputStream extends Readable {
         const buf = Buffer.alloc(n);
         fs.read(this.fd, buf, 0, n, null, (err, bytesRead) => {
           if (err) {
-            this.destroy(err);
+            if (err.errno === -4068) {
+              process.stderr.write('input should be a .txt file!')
+              process.exit(1)
+          } 
           } else {
             this.push(bytesRead > 0 ? buf.slice(0, bytesRead) : null);
           }

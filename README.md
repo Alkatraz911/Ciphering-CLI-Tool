@@ -14,7 +14,9 @@ Y is flag of encoding or decoding (mandatory for Caesar cipher and ROT-8 cipher 
 -o, --output: a path to output file  
 For example, config "C1-C1-R0-A" means "encode by Caesar cipher => encode by Caesar cipher => decode by ROT-8 => use Atbash"  
 
-To start work with tol type at the terminal node index.js, then type options wich you would like to use.  
+To start work with tol type at the terminal node index.js, then type options wich you would like to use.
+
+If you would like to read text from file, your should first create or paste file in directory with tool (directory with index.js) and then type name of file in -i or --input option. The same way you can write decoded or encoded text in file, but first check if file has permission for writting in it.  
 
 Troubleshooting  
 

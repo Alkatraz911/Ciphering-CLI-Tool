@@ -23,7 +23,7 @@ const argumentChecker = (args) => {
     }
 
     if (argsNumber > 3 ) {
-        process.stderr.write('To many arguments!');
+        process.stderr.write('To many flags!');
         exit(1);
 
     } else {
@@ -48,13 +48,6 @@ const argumentChecker = (args) => {
             process.stderr.write('To many flags!');
             exit(1);
         }   
-        // } else if (inputArgNumber === 0) {
-        //     process.stderr.write('Require input flag!');
-        //     exit(1);
-        // } else if (outputArgNumber === 0) {
-        //     process.stderr.write('Require output flag!');
-        //     exit(1);
-        // } 
     }
 
     

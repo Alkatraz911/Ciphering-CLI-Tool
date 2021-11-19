@@ -1,5 +1,5 @@
 import { Transform } from 'stream';
-import { StringDecoder } from 'string_decoder';
+
 
 const ALPHABET = 'abcdefghijklmnopqrstuvwxyz'.split('');
 const REVERSED_AlPHABET = 'abcdefghijklmnopqrstuvwxyz'.split('').reverse();
@@ -36,4 +36,4 @@ class atbashTransform extends Transform {
     }
 }
 
-export { atbashTransform }
+export { atbashTransform, atbash }

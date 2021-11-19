@@ -5,11 +5,18 @@
   "main": "my_ceaser_cli.js",
   "type": "module",
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Alkatraz911/my_ceaser_cli.git"
+  },
+  "jest": {
+    "verbose": true,
+    "collectCoverageFrom" : [
+      "*.js",
+      "!**/node_modules/**"
+    ]
   },
   "author": "",
   "license": "ISC",

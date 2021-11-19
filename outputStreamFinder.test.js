@@ -12,3 +12,4 @@ test(`User passes -o argument with path that doesn't exist or with no read acces
        inputStreamFinder(arr);
     })
 });
+

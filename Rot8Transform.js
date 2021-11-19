@@ -65,4 +65,4 @@ class rot8Transform extends Transform {
     }
 }
 
-export { rot8Transform }
+export { rot8Transform, rot8, transformLowerChar, transformUpperChar }

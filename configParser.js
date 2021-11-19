@@ -1,4 +1,4 @@
-import { CeasarTransform } from './CeasatTransform.js';
+import { CeasarTransform } from './CeasarTransform.js';
 import { rot8Transform } from './Rot8Transform.js';
 import { atbashTransform } from './AtbashTransform.js';
 

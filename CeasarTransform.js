@@ -1,5 +1,6 @@
 import { Transform } from 'stream'
 
+
 const ALPHABET_LENGTH = 26;
 const CHAR_CODE_UP = 65;
 const CHAR_CODE_LOW = 97;
@@ -65,4 +66,4 @@ class CeasarTransform extends Transform {
     }
 }
 
-export { CeasarTransform }
+export { CeasarTransform, ceaser, transformLowerChar, transformUpperChar }

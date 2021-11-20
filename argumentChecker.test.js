@@ -15,3 +15,4 @@ test('test argumentChecker expected Error Config flag is missing!',  () => {
     expect(()=>{argumentChecker(args)}).toThrow('Config flag is missing!'); 
 });
 
+

@@ -14,7 +14,7 @@ const configChecker = (args) => {
     } else if (args.includes('-c')) {
         config = args[args.indexOf('-c')+1];
     } else if (args.includes('--config'))
-    config =  args[args.indexOf('--config')+1];
+        config =  args[args.indexOf('--config')+1];
     if(config){
         config = config.split('-')
         let result = []

@@ -21,11 +21,25 @@ test('test rot8 encoding expected iii', async () => {
     expect(result).toBe('iii'); 
 });
 
-test('test cease decoding expected ', async () => {
+test('test rot8 encoding expected iii', async () => {
+    const str = 'AAA';
+    const shift =  'R1'
+    const result = await rot8(shift,str);
+    expect(result).toBe('III'); 
+});
+
+test('test rot8 decoding expected ', async () => {
     const str = 'AAA';
     const shift =  'R0'
     const result = await rot8(shift,str);
     expect(result).toBe('SSS'); 
+});
+
+test('test rot8 decoding expected ', async () => {
+    const str = 'aaa';
+    const shift =  'R0'
+    const result = await rot8(shift,str);
+    expect(result).toBe('sss'); 
 });
 
 test('test rot8 skipping non a-z,A-Z symbols encode mode', async () => {

@@ -21,11 +21,25 @@ test('test ceaser encoding expected BBB', async () => {
     expect(result).toBe('BBB'); 
 });
 
+test('test ceaser encoding expected bbb', async () => {
+    const str = 'aaa';
+    const shift =  'C1'
+    const result = await ceaser(shift,str);
+    expect(result).toBe('bbb'); 
+});
+
 test('test cease decoding expected ZZZ', async () => {
     const str = 'AAA';
     const shift =  'C0'
     const result = await ceaser(shift,str);
     expect(result).toBe('ZZZ'); 
+});
+
+test('test cease decoding expected zzz', async () => {
+    const str = 'aaa';
+    const shift =  'C0'
+    const result = await ceaser(shift,str);
+    expect(result).toBe('zzz'); 
 });
 
 test('test ceaser skipping non a-z,A-Z symbols encode mode', async () => {

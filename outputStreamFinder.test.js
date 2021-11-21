@@ -1,15 +1,16 @@
-import { inputStreamFinder } from "./inputStreamFinder";
+import { outputStreamFinder } from "./outputStreamFinder";
+import { Writable } from 'stream';
 
 
-test(`User passes -o argument with path that doesn't exist or with no read access`, () => {
-    const arr = ['-o', 'output.txt'];
-    expect(async () => {
-        try {
-            await inputStreamFinder(arr);
-        } catch (e){
-           expect(e).toThrow('Incorrect input file or no acces to it!');
-        }
-       inputStreamFinder(arr);
-    })
+test('test return of process.stout',  () => {
+    const arr = [];
+    const result =  outputStreamFinder(arr);
+    expect(result).toEqual(process.stdout);
+});
+
+test('test return of OutputStream',  () => {
+    const arr = ['-o','output.txt'];
+    const result =  outputStreamFinder(arr);
+    expect(result).toBeInstanceOf(Writable);
 });
 

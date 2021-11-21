@@ -15,7 +15,7 @@ const outputStreamFinder = (args) => {
     if (allowedArgs.includes(outputFile) || outputFile === undefined) {
         return process.stdout;
     } else {
-        let pathToOutput = `${path.dirname(process.argv[1])}\\${outputFile}`
+        let pathToOutput = path.resolve(process.cwd(),outputFile);
         fs.access(pathToOutput, fs.constants.F_OK, (err => {
             if (err) {
                 process.stderr.write('Incorrect output file or no acces to it!');

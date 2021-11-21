@@ -29,3 +29,10 @@ input should be a .txt file! - you used for input directory.
 output should be a .txt file! - you used for output directory.  
 No write permission! - no permision to write in output file. Check file permisdions.  
 
+Testing
+1. Clone repository
+2. Switch branch tests
+3. Run npm install
+4. Run npm test
+
+Jest is ised in experimental mode to support ES6 modules.
